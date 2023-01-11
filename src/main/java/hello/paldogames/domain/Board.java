@@ -8,8 +8,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 @Getter
-@RequiredArgsConstructor
 public class Board {
 
     @Id

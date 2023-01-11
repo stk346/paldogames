@@ -1,18 +1,14 @@
 package hello.paldogames.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@RequiredArgsConstructor
+@Entity
+@Data
 public class Member {
 
     @Id
@@ -21,6 +17,8 @@ public class Member {
     private Long id;
 
     private String name;
+
+    private String password;
 
     private int point;
 
