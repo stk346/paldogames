@@ -1,7 +1,7 @@
 package hello.paldogames.controller;
 
 import hello.paldogames.domain.Member;
-import hello.paldogames.domain.MemberForm;
+import hello.paldogames.domain.form.MemberForm;
 import hello.paldogames.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,9 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 @Slf4j

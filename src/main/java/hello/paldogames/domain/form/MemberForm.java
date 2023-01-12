@@ -1,4 +1,4 @@
-package hello.paldogames.domain;
+package hello.paldogames.domain.form;
 
 import lombok.Data;
 import lombok.Getter;
