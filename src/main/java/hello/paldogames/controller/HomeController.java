@@ -35,6 +35,14 @@ public class HomeController {
         }
 
         model.addAttribute("member", loginMember);
-        return "loginHome";
+        return "board/board";
     }
+
+    @RequestMapping("/newhome")
+    public String newhome() {
+
+        return "newhome";
+    }
+
+
 }

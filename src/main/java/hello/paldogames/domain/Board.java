@@ -3,13 +3,16 @@ package hello.paldogames.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 public class Board {
 
     @Id
@@ -17,9 +20,11 @@ public class Board {
     @Column(name = "board_id")
     private Long id;
 
-    private String title;
+    @NotEmpty(message = "제목을 입력해주세요.")
+    private String boardTitle;
 
-    private String content;
+    @NotEmpty(message = "내용을 입력해주세요.")
+    private String boardContent;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -28,5 +33,4 @@ public class Board {
     @JsonIgnore
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
-
 }

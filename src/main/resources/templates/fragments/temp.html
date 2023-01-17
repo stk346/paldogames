@@ -1,0 +1,46 @@
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org">
+<!--headerFragment 선언-->
+<div th:fragment="temp">
+    <style>
+    .left-box {
+      float: left;
+    }
+    .right-box {
+      float: right;
+    .center-box {
+      float: center;
+    }
+    </style>
+
+    <h1>Header Section</h1>
+    <title>팔도게임즈에 오신것을 환영합니다!</title>
+
+    <a href="/">
+        <div class='left-box'>홈으로</div>
+    </a>
+
+    <form action="/logout" method="post">
+        <a href="/">
+            <div class='right-box'>로그아웃</div></br>
+        </a>
+    </form>
+    </br>
+
+    <div class="search">
+        <div class="right-box">
+            <input type="text" placeholder="검색어를 입력하세요.">
+            <button>검색</button>
+        </div>
+    </div>
+    </br>
+
+    <div>
+        <div class="right-box">
+            <a href="/board/publish">
+                <button>글쓰기</button></br>
+            </a>
+        </div>
+    </div>
+
+</div>
+</html>

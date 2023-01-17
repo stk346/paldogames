@@ -1,19 +1,16 @@
 package hello.paldogames.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Data
-public class Member {
-
-    @Id
-    @Column(name = "member_id")
-    @GeneratedValue
+@RequiredArgsConstructor
+@AllArgsConstructor
+public class MemberDto {
     private Long id;
 
     private String name;
@@ -23,7 +20,5 @@ public class Member {
 
     private int point;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "member")
     private List<Board> boards = new ArrayList<>();
 }

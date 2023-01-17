@@ -32,6 +32,10 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+dependencies {
+	compileOnly("org.springframework.boot:spring-boot-devtools")
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
