@@ -35,7 +35,7 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@Valid @ModelAttribute LoginForm form,
                         BindingResult bindingResult,
-                        @RequestParam(defaultValue = "/") String requestUrl,
+                        @RequestParam(defaultValue = "/board?currentPage=1&boardPerPage=10") String requestUrl,
                         HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return "login/loginForm";

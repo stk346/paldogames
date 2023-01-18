@@ -1,7 +1,10 @@
 package hello.paldogames.repository;
 
 import hello.paldogames.domain.Board;
+import hello.paldogames.domain.PageCriteria;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -22,7 +25,7 @@ public class BoardRepository {
     }
 
     public List<Board> findAll() {
-        return em.createQuery("select * from board b", Board.class)
+        return em.createQuery("select * from Board b", Board.class)
                 .getResultList();
     }
 
@@ -30,5 +33,14 @@ public class BoardRepository {
         return em.createQuery("select b from Board b where b.name = :name", Board.class)
                 .setParameter("name", name)
                 .getResultList();
+    }
+
+    public List<Board> getPage(PageCriteria pc) {
+        return em.createQuery(
+                "select b from Board b" +
+                        " order by b.id", Board.class
+        ).setFirstResult(pc.getSkipPage())
+        .setMaxResults(pc.getBoardPerPage())
+        .getResultList();
     }
 }

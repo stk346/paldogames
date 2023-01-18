@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +17,11 @@ import java.util.List;
 public class Board {
 
     @Id
-    @GeneratedValue
     @Column(name = "board_id")
+    @GeneratedValue
     private Long id;
+
+    private LocalDateTime dateTime;
 
     @NotEmpty(message = "제목을 입력해주세요.")
     private String boardTitle;
