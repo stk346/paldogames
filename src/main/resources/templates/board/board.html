@@ -10,11 +10,31 @@
 <th:block th:replace="fragments/boardHeader :: boardHeader"></th:block>
 <a th:onclick="|location.href='/board?currentPage=${urlVariable}&boardPerPage=10'|">
     <div>
-        목록으로
+        목록으로<br>
     </div>
 </a>
 
+<form th:object="${board}">
+    <div th:text="|작성자: ${member.name}|"></div>
+    <div th:text="|작성일시: *{dateTime}"></div>
+    <div th:text="|제목: *{boardTitle}|"></div>
+    <div th:text="|내용: *{boardContent}|"></div>
+    <br>
 
+    <form action="/boards/addComment?boardId=${board.id}" method="post"
+            th:object="${comment}">
+        <input type="text" th:field="*{content}" placeholder="댓글을 입력하세요.">
+        <button>댓글 쓰기</button>
+    </form>
+
+    <table>
+        <tr th:each="comment : ${comments}">
+            <td th:text="|댓글 작성자: ${comment.name}|"></td>
+            <td th:text="|댓글 작성일시: ${comment.dateTime}|"></td>
+            <td th:text="|댓글 내용: ${comment.name}|"></td>
+        </tr>
+    </table>
+</form>
 
 </body>
 </html>

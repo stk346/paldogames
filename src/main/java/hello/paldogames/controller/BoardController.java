@@ -1,9 +1,9 @@
 package hello.paldogames.controller;
 
-import hello.paldogames.domain.Board;
-import hello.paldogames.domain.PageCriteria;
-import hello.paldogames.domain.SessionMember;
+import hello.paldogames.domain.*;
+import hello.paldogames.domain.dto.CommentDto;
 import hello.paldogames.domain.form.BoardForm;
+import hello.paldogames.repository.CommentRepository;
 import hello.paldogames.repository.MemberRepository;
 import hello.paldogames.repository.SessionRepository;
 import hello.paldogames.service.BoardService;
@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -28,6 +29,7 @@ public class BoardController {
 
     private final BoardService boardService;
     private final SessionRepository sessionRepository;
+    private final CommentRepository commentRepository;
 
     @GetMapping("/board/publish")
     public String publish(@ModelAttribute("board") Board board) {
@@ -81,13 +83,33 @@ public class BoardController {
      * 게시글의 제목을 클릭하면 해당 게시글의 내용을 보여주는 메서드
      */
     @GetMapping("/boards")
-    public String boardInfo(@RequestParam("boardId") int id,
+    public String boardInfo(@RequestParam("boardId") Long id,
                             Model model) {
         model.addAttribute("boardId", id);
 
+        Board findBoard = boardService.findById(id);
+        model.addAttribute("board", findBoard);
+
+        Member findMember = findBoard.getMember();
+        model.addAttribute("member", findMember);
+
         // 목록 페이지를 볼 수 있도록 해당 페이지의 url에 매핑되는 변수를 넣어줌
-        int currentUrlVariable = (int) Math.floor(id/10)*10 + 1;
+        int currentUrlVariable = (int) Math.floor(id/10) + 1;
         model.addAttribute("urlVariable", currentUrlVariable);
+
+        List<Comment> comments = commentRepository.findByBoardId(findBoard);
+        log.info("findComment={} ", comments);
+
+        List<CommentDto> commentDtos = new ArrayList<>();
+        for (Comment comment : comments) {
+            CommentDto commentDto = new CommentDto();
+            commentDto.setCommentId(comment.getId());
+            commentDto.setName(comment.getMember().getName());
+            commentDto.setDateTime(comment.getDateTime());
+            commentDto.setContent(comment.getContent());
+            commentDtos.add(commentDto);
+        }
+        model.addAttribute("comments", commentDtos);
 
         return "/board/board";
     }

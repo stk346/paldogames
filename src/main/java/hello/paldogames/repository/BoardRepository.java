@@ -25,7 +25,7 @@ public class BoardRepository {
     }
 
     public List<Board> findAll() {
-        return em.createQuery("select * from Board b", Board.class)
+        return em.createQuery("select b from Board b", Board.class)
                 .getResultList();
     }
 
@@ -38,7 +38,7 @@ public class BoardRepository {
     public List<Board> getPage(PageCriteria pc) {
         return em.createQuery(
                 "select b from Board b" +
-                        " order by b.id", Board.class
+                        " order by b.id desc", Board.class
         ).setFirstResult(pc.getSkipPage())
         .setMaxResults(pc.getBoardPerPage())
         .getResultList();

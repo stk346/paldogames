@@ -30,6 +30,10 @@ public class BoardService {
         return boardRepository.findByName(name);
     }
 
+    public Board findById(Long id) {
+        return boardRepository.findOne(id);
+    }
+
     public List<Board> getPage(PageCriteria pc) {
         return boardRepository.getPage(pc);
     }

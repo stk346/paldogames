@@ -1,13 +1,12 @@
 package hello.paldogames.domain;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
+@Data
 public class Comment {
 
     @Id
