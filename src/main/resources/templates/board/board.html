@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html lagn="ko"
+<html lang="ko"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>HI</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
 <!-- header fragment 사용 -->
 <th:block th:replace="fragments/boardHeader :: boardHeader"></th:block>
+<a th:onclick="|location.href='/board?currentPage=${urlVariable}&boardPerPage=10'|">
+    <div>
+        목록으로
+    </div>
+</a>
 
 
 

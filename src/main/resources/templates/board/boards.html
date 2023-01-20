@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lagn="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>HI</title>
+</head>
+<body>
+<!-- header fragment 사용 -->
+<th:block th:replace="fragments/boardHeader :: boardHeader"></th:block>
+
+ <form role="form" th:object="${boards}">
+     <table border="1">
+         <tr th:each="board : ${boards}">
+             <td align="right" th:onclick="|location.href='/boards?boardId=${board.id}'|"
+                 th:text="|${board.boardTitle}|">
+             </td>
+             <td align="left" th:text="${board.member.name}"></td>
+         </tr>
+     </table>
+ </form>
+
+</body>
+</html>
