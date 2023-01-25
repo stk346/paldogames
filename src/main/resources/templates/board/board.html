@@ -21,10 +21,12 @@
     <div th:text="|내용: *{boardContent}|"></div>
     <br>
 
-    <form action="/boards/addComment?boardId=${board.id}" method="post"
-            th:object="${comment}">
-        <input type="text" th:field="*{content}" placeholder="댓글을 입력하세요.">
-        <button>댓글 쓰기</button>
+    <form role="form" action="/boards/addComment?boardId=${board.id}" method="post"
+            th:object="${commentForm}">
+        <input type="text" th:field="*{content}" placeholder="댓글을 입력하세요."
+               th:class="${#fields.hasErrors('content')}? 'form-control fieldError' : 'form-control'">
+        <p th:if="${#fields.hasErrors('content')}" th:errors="*{id}"></p>
+        <button type="submit">댓글 쓰기</button>
     </form>
 
     <table>

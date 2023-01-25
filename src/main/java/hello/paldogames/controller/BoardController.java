@@ -84,6 +84,7 @@ public class BoardController {
      */
     @GetMapping("/boards")
     public String boardInfo(@RequestParam("boardId") Long id,
+                            @Valid @ModelAttribute("commentForm") CommentDto commentForm,
                             Model model) {
         model.addAttribute("boardId", id);
 
@@ -94,6 +95,8 @@ public class BoardController {
         model.addAttribute("member", findMember);
 
         // 목록 페이지를 볼 수 있도록 해당 페이지의 url에 매핑되는 변수를 넣어줌
+        //Todo
+        // 목록으로 갈 때 내림차순 기준으로 urlVariable 을 설정했는데 오름차순으로 바꿔야함
         int currentUrlVariable = (int) Math.floor(id/10) + 1;
         model.addAttribute("urlVariable", currentUrlVariable);
 

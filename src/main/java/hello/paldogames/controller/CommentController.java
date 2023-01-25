@@ -34,7 +34,7 @@ public class CommentController {
     // 만약 post일 경우 댓글 내용과 유저의 세션은 어떻게 전달돼야 하는지
     // 만약 get일 경우 return은 무엇이 돼야 하는지
 
- 지  /**
+    /**
      * 댓글 작성 버튼을 누르면 Comment에 댓글 내용, 사용자 정보를 받아
      * ModelAttribute로 넘긴 후 원래 게시글로 리다이렉트하는 메소드
      */
