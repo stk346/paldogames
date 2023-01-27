@@ -36,30 +36,11 @@ public class CommentController {
      * 댓글 작성 버튼을 누르면 Comment에 댓글 내용, 사용자 정보를 받아
      * ModelAttribute로 넘긴 후 원래 게시글로 리다이렉트하는 메소드
      */
-    @GetMapping("boards/")
-    public String get(@RequestParam("boardId") Long id,
-                          HttpServletRequest request) {
-
-        log.info("댓글 작성 후 get 호출 완료");
-
-        HttpSession currentSession = request.getSession();
-        String session = currentSession.getId();
-        log.info("currentSession= {}", session);
-        SessionMember findSession = sessionRepository.findMember(session);
-        Member member  = findSession.getMember();
-
-
-
-        return "redirect:/boards?boardId=" + id;
-    }
 
     @PostMapping("boards/addComment")
     public String publish(@RequestParam("boardId") Long id,
                           @Valid @ModelAttribute CommentDto commentDto,
                           HttpServletRequest request) {
-        log.info("findComment34234234= {}", commentDto);
-
-        log.info("댓글 작성 후 post 호출 완료");
 
         HttpSession currentSession = request.getSession();
         String session = currentSession.getId();

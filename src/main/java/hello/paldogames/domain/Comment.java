@@ -3,6 +3,7 @@ package hello.paldogames.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,5 +25,6 @@ public class Comment {
     @JoinColumn(name = "member_id")
     private Member member;
 
+//    @NotEmpty(message = "내용을 입력해주세요.")
     private String content;
 }
