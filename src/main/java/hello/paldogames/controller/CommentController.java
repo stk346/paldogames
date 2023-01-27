@@ -11,12 +11,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 
@@ -38,18 +36,17 @@ public class CommentController {
      * 댓글 작성 버튼을 누르면 Comment에 댓글 내용, 사용자 정보를 받아
      * ModelAttribute로 넘긴 후 원래 게시글로 리다이렉트하는 메소드
      */
-    @GetMapping("boards/addComments")
-    public String publish(@RequestParam("boardId") Long id,
-                          @ModelAttribute("comment") CommentDto comment) {
-        return "redirect:/boards?boardId=" + id;
-    }
-
-    @PostMapping("boards/addComments")
+    @GetMapping("boards/addComment")
     public String publish(@RequestParam("boardId") Long id,
                           @Valid @ModelAttribute CommentDto commentDto,
                           HttpServletRequest request) {
+        log.info("findContent= {}", commentDto.getContent());
 
-        String session = request.getSession().toString();
+        log.info("댓글 작성 후 post 호출 완료");
+
+        HttpSession currentSession = request.getSession();
+        String session = currentSession.getId();
+        log.info("currentSession= {}", session);
         SessionMember findSession = sessionRepository.findMember(session);
         Member member  = findSession.getMember();
 
@@ -59,6 +56,7 @@ public class CommentController {
         comment.setMember(member);
         comment.setContent(commentDto.getContent());
         log.info("createdComment= {}", comment);
+        commentRepository.save(comment);
 
         return "redirect:/boards?boardId=" + id;
     }

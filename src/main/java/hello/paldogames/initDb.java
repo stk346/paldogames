@@ -3,6 +3,7 @@ package hello.paldogames;
 import hello.paldogames.domain.Board;
 import hello.paldogames.domain.Comment;
 import hello.paldogames.domain.Member;
+import hello.paldogames.domain.SessionMember;
 import hello.paldogames.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,6 @@ public class initDb {
             Member member = new Member();
             member.setName("test");
             member.setPassword("test");
-
             em.persist(member);
 
             int boardCnt = 70;

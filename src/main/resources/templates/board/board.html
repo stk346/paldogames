@@ -20,14 +20,20 @@
     <div th:text="|제목: *{boardTitle}|"></div>
     <div th:text="|내용: *{boardContent}|"></div>
     <br>
+</form>
 
-    <form role="form" action="/boards/addComment?boardId=${board.id}" method="post"
-            th:object="${commentForm}">
-        <input type="text" th:field="*{content}" placeholder="댓글을 입력하세요."
-               th:class="${#fields.hasErrors('content')}? 'form-control fieldError' : 'form-control'">
-        <p th:if="${#fields.hasErrors('content')}" th:errors="*{id}"></p>
-        <button type="submit">댓글 쓰기</button>
-    </form>
+    <!--
+    Todo
+    *{content}에서 @NotEmpty, @NotBlank 애노테이션 걸기
+    -->
+<form th:object="${commentForm}" method="post">
+    <input type="text" th:field="*{content}" placeholder="댓글을 입력하세요.">
+<!--           th:class="${#fields.hasErrors('content')}? 'form-control fieldError' : 'form-control'">-->
+<!--    <p th:if="${#fields.hasErrors('content')}" th:errors="${commentForm.id}"></p>-->
+    <button type="button" th:onclick="|location.href='@{/boards/addComment(boardId=${board.id})}'|"
+            formmethod="post">댓글 쓰기
+    </button>
+</form>
 
     <table>
         <tr th:each="comment : ${comments}">
@@ -36,7 +42,6 @@
             <td th:text="|댓글 내용: ${comment.name}|"></td>
         </tr>
     </table>
-</form>
 
 </body>
 </html>

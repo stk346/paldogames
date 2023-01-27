@@ -44,6 +44,6 @@ public class HomeController {
             return "home";
         }
 
-        return "redirect:/board";
+        return "redirect:/board?currentPage=1&boardPerPage=10";
     }
 }

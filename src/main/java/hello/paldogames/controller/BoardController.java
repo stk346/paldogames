@@ -89,6 +89,7 @@ public class BoardController {
         model.addAttribute("boardId", id);
 
         Board findBoard = boardService.findById(id);
+        log.info("boardId= {}", findBoard.getId());
         model.addAttribute("board", findBoard);
 
         Member findMember = findBoard.getMember();
