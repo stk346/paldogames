@@ -47,6 +47,7 @@
         </li>
 
         <!-- 다음 10개 버튼으로 이동 버튼 -->
+        <!-- TODO 페이지가 100개 등으로 나누어 떨어질 때 다음 페이지로 가지 못하게 하는  기능 추가 구현해야함 -->
         <li th:class="${pageNumberDto.next == false} ? 'disabled'">
             <a th:href="${pageNumberDto.next == false} ? '#' :@{/board(currentPage=${pageNumberDto.endPage+10},boardPerPage=10)}"
                aria-label="next">

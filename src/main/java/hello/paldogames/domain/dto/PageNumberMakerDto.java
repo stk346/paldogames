@@ -35,7 +35,7 @@ public class PageNumberMakerDto {
     public void calcData() {
         int totalPage = (int) Math.ceil(totalBoardsCount / (double) pageCriteria.getBoardPerPage());
         if (10 > totalPage) {
-            this.endPage = endPage + totalPage;
+            this.endPage = endPage - 10 + totalPage;
             this.next = false;
         }
         this.prev = this.startPage != 1;
