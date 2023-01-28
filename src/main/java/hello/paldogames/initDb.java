@@ -46,7 +46,7 @@ public class initDb {
             member.setPassword("test");
             em.persist(member);
 
-            int boardCnt = 70;
+            int boardCnt = 300;
             for (int i = 0; i < boardCnt; i++) {
                 Board board = new Board();
                 String boardTitle = "title" + i;

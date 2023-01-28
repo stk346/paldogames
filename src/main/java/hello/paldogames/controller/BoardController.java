@@ -2,10 +2,12 @@ package hello.paldogames.controller;
 
 import hello.paldogames.domain.*;
 import hello.paldogames.domain.dto.CommentDto;
+import hello.paldogames.domain.dto.PageNumberMakerDto;
 import hello.paldogames.domain.form.BoardForm;
 import hello.paldogames.repository.CommentRepository;
 import hello.paldogames.repository.MemberRepository;
 import hello.paldogames.repository.SessionRepository;
+import hello.paldogames.service.BoardPageService;
 import hello.paldogames.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,7 @@ public class BoardController {
     private final BoardService boardService;
     private final SessionRepository sessionRepository;
     private final CommentRepository commentRepository;
+    private final BoardPageService boardPageService;
 
     @GetMapping("/board/publish")
     public String publish(@ModelAttribute("board") Board board) {
@@ -72,6 +75,11 @@ public class BoardController {
                             Model model
     ) {
         PageCriteria pc = new PageCriteria((currentPage), (boardPerPage));
+        PageNumberMakerDto pageNumberMakerDto = new PageNumberMakerDto(pc);
+        int boardsCount = boardPageService.getPages(pageNumberMakerDto.getStartPage(), pageNumberMakerDto.getEndPage(), pc.getBoardPerPage());
+        pageNumberMakerDto.setTotalBoardsCount(boardsCount);
+        pageNumberMakerDto.calcData();
+        model.addAttribute("pageNumberDto", pageNumberMakerDto);
         List<Board> boards = boardService.getPage(pc);
         log.info("boards= {}", boards);
         model.addAttribute("boards", boards);
