@@ -1,6 +1,8 @@
 package hello.paldogames.service;
 
 import hello.paldogames.domain.Board;
+import hello.paldogames.domain.PageCriteria;
+import hello.paldogames.domain.dto.PageNumberMakerDto;
 import hello.paldogames.repository.PageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,11 @@ public class BoardPageService {
 
     private final PageRepository pageRepository;
 
-    public int getPages(int startPage, int endPage, int boardPerPage) {
-        return pageRepository.getPagesCount(startPage, endPage, boardPerPage);
+    public PageNumberMakerDto getPages(PageCriteria pc) {
+        PageNumberMakerDto pm = new PageNumberMakerDto(pc);
+        int boardsCount = pageRepository.getPagesCount(pm.getStartPage(), pm.getEndPage(), pc.getBoardPerPage());
+        pm.setTotalBoardsCount(boardsCount);
+        pm.calcData();
+        return pm;
     }
 }

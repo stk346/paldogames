@@ -1,27 +1,26 @@
 package hello.paldogames.controller;
 
-import hello.paldogames.domain.*;
+import hello.paldogames.domain.Board;
+import hello.paldogames.domain.Member;
+import hello.paldogames.domain.PageCriteria;
 import hello.paldogames.domain.dto.CommentDto;
 import hello.paldogames.domain.dto.PageNumberMakerDto;
 import hello.paldogames.domain.form.BoardForm;
-import hello.paldogames.repository.CommentRepository;
-import hello.paldogames.repository.MemberRepository;
-import hello.paldogames.repository.SessionRepository;
 import hello.paldogames.service.BoardPageService;
 import hello.paldogames.service.BoardService;
+import hello.paldogames.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.h2.engine.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -30,8 +29,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
-    private final SessionRepository sessionRepository;
-    private final CommentRepository commentRepository;
+    private final CommentService commentService;
     private final BoardPageService boardPageService;
 
     @GetMapping("/board/publish")
@@ -47,20 +45,7 @@ public class BoardController {
         if (result.hasErrors()) {
             return "board/boardPublish";
         }
-
-        log.info("title = {}", form.getBoardTitle());
-        log.info("content = {}", form.getBoardContent());
-
-        Board board = new Board();
-        board.setBoardTitle(form.getBoardTitle());
-        board.setBoardContent(form.getBoardContent());
-        board.setDateTime(LocalDateTime.now());
-
-
-        HttpSession session = request.getSession();
-        SessionMember findSession = sessionRepository.findMember(session.getId());
-        board.setMember(findSession.getMember());
-        boardService.publish(board);
+        boardService.publish(form, request.getSession());
 
         return "redirect:/board?currentPage=1&boardPerPage=10";
     }
@@ -74,11 +59,8 @@ public class BoardController {
                             @RequestParam("boardPerPage") int boardPerPage,
                             Model model
     ) {
-        PageCriteria pc = new PageCriteria((currentPage), (boardPerPage));
-        PageNumberMakerDto pageNumberMakerDto = new PageNumberMakerDto(pc);
-        int boardsCount = boardPageService.getPages(pageNumberMakerDto.getStartPage(), pageNumberMakerDto.getEndPage(), pc.getBoardPerPage());
-        pageNumberMakerDto.setTotalBoardsCount(boardsCount);
-        pageNumberMakerDto.calcData();
+        PageCriteria pc = new PageCriteria(currentPage, boardPerPage);
+        PageNumberMakerDto pageNumberMakerDto = boardPageService.getPages(pc);
         model.addAttribute("pageNumberDto", pageNumberMakerDto);
         List<Board> boards = boardService.getPage(pc);
         log.info("boards= {}", boards);
@@ -95,33 +77,19 @@ public class BoardController {
                             @Valid @ModelAttribute("commentForm") CommentDto commentForm,
                             Model model) {
         model.addAttribute("boardId", id);
-
         Board findBoard = boardService.findById(id);
-        log.info("boardId= {}", findBoard.getId());
-        model.addAttribute("board", findBoard);
-
+        model.addAttribute("board", boardService.findById(id));
         Member findMember = findBoard.getMember();
         model.addAttribute("member", findMember);
 
         // 목록 페이지를 볼 수 있도록 해당 페이지의 url에 매핑되는 변수를 넣어줌
         //Todo
         // 목록으로 갈 때 내림차순 기준으로 urlVariable 을 설정했는데 오름차순으로 바꿔야함
-        int currentUrlVariable = (int) Math.floor(id/10) + 1;
+        int currentUrlVariable = (int) Math.floor(id / 10) + 1;
         model.addAttribute("urlVariable", currentUrlVariable);
 
-        List<Comment> comments = commentRepository.findByBoardId(findBoard);
-        log.info("findComment={} ", comments);
-
-        List<CommentDto> commentDtos = new ArrayList<>();
-        for (Comment comment : comments) {
-            CommentDto commentDto = new CommentDto();
-            commentDto.setCommentId(comment.getId());
-            commentDto.setName(comment.getMember().getName());
-            commentDto.setDateTime(comment.getDateTime());
-            commentDto.setContent(comment.getContent());
-            commentDtos.add(commentDto);
-        }
-        model.addAttribute("comments", commentDtos);
+        List<CommentDto> comments = commentService.getComments(findBoard);
+        model.addAttribute("comments", comments);
 
         return "/board/board";
     }

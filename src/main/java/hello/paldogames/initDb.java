@@ -3,7 +3,6 @@ package hello.paldogames;
 import hello.paldogames.domain.Board;
 import hello.paldogames.domain.Comment;
 import hello.paldogames.domain.Member;
-import hello.paldogames.domain.SessionMember;
 import hello.paldogames.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +51,7 @@ public class initDb {
                 String boardTitle = "title" + i;
                 String boardContent = "content" + i;
                 board.setBoardTitle(boardTitle);
-                board.setBoardContent(boardContent);
+                board.setContent(boardContent);
                 board.setMember(member);
                 board.setDateTime(LocalDateTime.now());
                 em.persist(board);

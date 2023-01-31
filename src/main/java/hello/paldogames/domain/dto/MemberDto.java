@@ -1,5 +1,6 @@
-package hello.paldogames.domain;
+package hello.paldogames.domain.dto;
 
+import hello.paldogames.domain.Board;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
