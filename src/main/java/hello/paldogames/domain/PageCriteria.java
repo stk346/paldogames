@@ -11,10 +11,10 @@ public class PageCriteria {
 
     private final int skipPage;
 
-    public PageCriteria(int currentPage, int boardPerPage) {
+    public PageCriteria(int currentPage, int boardCountsPerPage) {
         this.currentPage = currentPage;
-        this.boardPerPage = boardPerPage;
-        this.skipPage = (currentPage - 1) * boardPerPage;
+        this.boardPerPage = boardCountsPerPage;
+        this.skipPage = (currentPage - 1) * boardCountsPerPage;
     }
 
     @Override

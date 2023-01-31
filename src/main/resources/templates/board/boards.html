@@ -26,7 +26,7 @@
 
         <!-- 첫 번째 페이지로 이동 버튼 -->
         <li>
-            <a th:href="@{/board(currentPage=1,boardPerPage=10)}"
+            <a th:href="@{/board(currentPage=1,boardCountsPerPage=10)}"
                aria-label="first">
                 <span aria-hidden="true">First</span>
             </a>
@@ -34,7 +34,7 @@
 
         <!-- 이전 10개 버튼으로 이동 버튼 -->
         <li th:class="${pageNumberDto.startPage == 1} ? 'disabled'">
-            <a th:href="${pageNumberDto.startPage == 1} ? '#' :@{/board(currentPage=${pageNumberDto.startPage-10},boardPerPage=10)}"
+            <a th:href="${pageNumberDto.startPage == 1} ? '#' :@{/board(currentPage=${pageNumberDto.startPage-10},boardCountsPerPage=10)}"
                aria-label="previous">
                 <span aria-hidden="true">&lt;</span>
             </a>
@@ -43,13 +43,13 @@
         <!-- 현재 페이지 그룹 나열 -->
         <li th:each="page: ${#numbers.sequence(start, last)}"
             th:class="${page == pageNumberDto.currentPage + 1} ? 'active'">
-            <a th:text="${page}" th:href="@{/board(currentPage=${page},boardPerPage=10)}"></a>
+            <a th:text="${page}" th:href="@{/board(currentPage=${page},boardCountsPerPage=10)}"></a>
         </li>
 
         <!-- 다음 10개 버튼으로 이동 버튼 -->
         <!-- TODO 페이지가 100개 등으로 나누어 떨어질 때 다음 페이지로 가지 못하게 하는  기능 추가 구현해야함 -->
         <li th:class="${pageNumberDto.next == false} ? 'disabled'">
-            <a th:href="${pageNumberDto.next == false} ? '#' :@{/board(currentPage=${pageNumberDto.endPage+10},boardPerPage=10)}"
+            <a th:href="${pageNumberDto.next == false} ? '#' :@{/board(currentPage=${pageNumberDto.endPage+10},boardCountsPerPage=10)}"
                aria-label="next">
                 <span aria-hidden="true">&gt;</span>
             </a>
@@ -57,7 +57,7 @@
 
         <!-- 마지막 페이지로 가기 버튼 -->
         <li>
-            <a th:href="@{/board(currentPage=1,boardPerPage=10)}"
+            <a th:href="@{/board(currentPage=1,boardCountsPerPage=10)}"
                aria-label="first">
                 <span aria-hidden="true">First</span>
             </a>

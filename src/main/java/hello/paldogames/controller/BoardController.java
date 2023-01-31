@@ -55,16 +55,16 @@ public class BoardController {
      * url: board?currentPage=1&boardPerPage=10
      */
     @GetMapping("/board")
-    public String boardPage(@RequestParam("currentPage") int currentPage,
-                            @RequestParam("boardPerPage") int boardPerPage,
-                            Model model
+    public String getPageButtons(@RequestParam("currentPage") int currentPage,
+                                 @RequestParam("boardCountsPerPage") int boardCountsPerPage,
+                                 Model pageNumberAndBoardCreateModel
     ) {
-        PageCriteria pc = new PageCriteria(currentPage, boardPerPage);
+        PageCriteria pc = new PageCriteria(currentPage, boardCountsPerPage);
         PageNumberMakerDto pageNumberMakerDto = boardPageService.getPages(pc);
-        model.addAttribute("pageNumberDto", pageNumberMakerDto);
+        pageNumberAndBoardCreateModel.addAttribute("pageNumberDto", pageNumberMakerDto);
         List<Board> boards = boardService.getPage(pc);
         log.info("boards= {}", boards);
-        model.addAttribute("boards", boards);
+        pageNumberAndBoardCreateModel.addAttribute("boards", boards);
 
         return "/board/boards";
     }
