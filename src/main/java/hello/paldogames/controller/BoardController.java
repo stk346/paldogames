@@ -1,5 +1,6 @@
 package hello.paldogames.controller;
 
+import hello.paldogames.controller.pageutils.PageUtils;
 import hello.paldogames.domain.Board;
 import hello.paldogames.domain.Member;
 import hello.paldogames.domain.PageCriteria;
@@ -33,8 +34,8 @@ public class BoardController {
     private final BoardPageService boardPageService;
 
     @GetMapping("/board/publish")
-    public String publish(@ModelAttribute("board") Board board) {
-        return "board/boardPublish";
+    public String showBoardPublishForm(@ModelAttribute("board") BoardForm form) {
+        return "board/boardPublishForm";
     }
 
     @PostMapping("/board/publish")
@@ -43,11 +44,12 @@ public class BoardController {
                           BindingResult result
     ) {
         if (result.hasErrors()) {
-            return "board/boardPublish";
+            return "board/boardPublishForm";
         }
         boardService.publish(form, request.getSession());
-
-        return "redirect:/board?currentPage=1&boardPerPage=10";
+        int startPage = PageUtils.START_PAGE_NUMBER.getNumbers();
+        int boardsCountPerPage = PageUtils.BOARD_COUNTS_PER_PAGE.getNumbers();
+        return "redirect:/board?currentPage=" + startPage + "&boardCountsPerPage=" + boardsCountPerPage;
     }
 
     /**

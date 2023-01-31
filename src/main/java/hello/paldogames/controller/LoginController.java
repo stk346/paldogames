@@ -1,5 +1,6 @@
 package hello.paldogames.controller;
 
+import hello.paldogames.controller.pageutils.PageUtils;
 import hello.paldogames.domain.Member;
 import hello.paldogames.domain.SessionMember;
 import hello.paldogames.domain.form.LoginForm;
@@ -33,7 +34,7 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@Valid @ModelAttribute LoginForm form,
                         BindingResult bindingResult,
-                        @RequestParam(defaultValue = "/board?currentPage=1&boardPerPage=10") String requestUrl,
+                        @RequestParam(defaultValue = "/") String requestUrl,
                         HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return "login/loginForm";
@@ -54,7 +55,10 @@ public class LoginController {
 
         log.info("sessionMember: {}", (Member) session.getAttribute("loginMember"));
         log.info("session={} ", session.getId());
-        return "redirect:" + requestUrl;
+
+        int startPage = PageUtils.START_PAGE_NUMBER.getNumbers();
+        int boardsCountPerPage = PageUtils.BOARD_COUNTS_PER_PAGE.getNumbers();
+        return "redirect:/board?currentPage=" + startPage + "&boardCountsPerPage=" + boardsCountPerPage;
     }
 
     @GetMapping("/logout")

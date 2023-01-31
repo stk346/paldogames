@@ -26,12 +26,12 @@ public class BoardService {
     @Transactional
     public Long publish(BoardForm form, HttpSession session) {
 
-        log.info("title = {}", form.getBoardTitle());
-        log.info("content = {}", form.getBoardContent());
+        log.info("title = {}", form.getTitle());
+        log.info("content = {}", form.getContent());
 
         Board board = new Board();
-        board.setBoardTitle(form.getBoardTitle());
-        board.setContent(form.getBoardContent());
+        board.setBoardTitle(form.getTitle());
+        board.setContent(form.getContent());
         board.setDateTime(LocalDateTime.now());
         SessionMember findSession = sessionService.findMember(session.getId());
 

@@ -1,5 +1,6 @@
 package hello.paldogames.controller;
 
+import hello.paldogames.controller.pageutils.PageUtils;
 import hello.paldogames.domain.Board;
 import hello.paldogames.domain.Member;
 import hello.paldogames.service.BoardService;
@@ -44,6 +45,8 @@ public class HomeController {
             return "home";
         }
 
-        return "redirect:/board?currentPage=1&boardPerPage=10";
+        int startPage = PageUtils.START_PAGE_NUMBER.getNumbers();
+        int boardsCountPerPage = PageUtils.BOARD_COUNTS_PER_PAGE.getNumbers();
+        return "redirect:/board?currentPage=" + startPage + "&boardCountsPerPage=" + boardsCountPerPage;
     }
 }

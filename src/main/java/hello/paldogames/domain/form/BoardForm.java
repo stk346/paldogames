@@ -10,8 +10,8 @@ import javax.validation.constraints.NotBlank;
 public class BoardForm {
 
     @NotBlank(message = "제목을 입력해주세요.")
-    private String boardTitle;
+    private String title;
 
     @NotBlank(message = "내용을 입력해주세요.")
-    private String boardContent;
+    private String content;
 }
